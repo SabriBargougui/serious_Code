@@ -1,0 +1,38 @@
+{
+  "image": {
+    "url": "assets/images/landing.png",
+    "width": 1740,
+    "height": 768
+  },
+  "locations": [
+    {
+      "id": "1",
+      "title": "Salle d’accueil",
+      "description": "Ceci est la salle d’accueil.",
+      "type": "room",
+      "iconName": "",
+      "fillcolor": "#330099FF",
+      "bordercolor": "#0000FF",
+      "polygon": [
+        {"x": 720, "y": 250},
+        {"x": 890, "y": 250},
+        {"x": 890, "y": 470},
+        {"x": 720, "y": 470}
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Salle Technique",
+      "description": "Salle avec équipement technique.",
+      "type": "room",
+      "fillcolor": "#3300FF00",
+      "bordercolor": "#00FF00",
+      "polygon": [
+        {"x": 900, "y": 250},
+        {"x": 1080, "y": 250},
+        {"x": 1080, "y": 470},
+        {"x": 900, "y": 470}
+      ]
+    }
+   ]
+}
