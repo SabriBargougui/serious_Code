@@ -68,7 +68,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 "3. Examens complémentaires non mentionnés: coloscopie? TDM?",
           ),
           question:
-              "Est-ce que la fiche de demande est bien remplie ? justifiez votre réponse ?",
+              "Est-ce que la fiche de demande est bien remplie ? ",
           image: "assets/images/q1.png",
           image2: "assets/images/q1big.png",
           title: "Voici une fiche de demande que vous avez reçu.",
@@ -78,7 +78,9 @@ class _WelcomePageState extends State<WelcomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 50),
+                SizedBox(
+                  height: 15,
+                ),
                 Obx(
                   () => Row(
                     children: [
@@ -228,7 +230,9 @@ class _WelcomePageState extends State<WelcomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 50),
+                SizedBox(
+                  height: 15,
+                ),
                 Obx(
                   () => Column(
                     children: [
@@ -292,9 +296,11 @@ class _WelcomePageState extends State<WelcomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: 50),
+                SizedBox(height: 20),
                 Obx(
                   () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CardButton(
                         onTap: () => controller.selectAnswer(
@@ -801,7 +807,8 @@ class _WelcomePageState extends State<WelcomePage> {
         QuestionModel(
           correctIndex: [1, 2, 3, 6],
           correctDialog: Q1CorrectResponse(
-            textResponse: "Les prélèvements à réaliser sur cette pièce :\n"
+            isHasImage: true,
+            textResponse: "Les prélèvements à réaliser sur cette pièce :\n \n"
                 "1. Prélèvement des limites chirurgicales : limites saines/tumorales \n"
                 "2. Prélèvement de la tumeur \n"
                 "3. Curage ganglionnaire à la recherche d’éventuelles métastases ganglionnaires.",
@@ -863,8 +870,13 @@ class _WelcomePageState extends State<WelcomePage> {
                                     container.index,
                                   );
                                 },
-                                number:
-                                    orderMap[container.index]?.toString() ?? '',
+                                number: (container.imagePath ==
+                                            "assets/images/container2.png" ||
+                                        container.imagePath ==
+                                            "assets/images/container3.png")
+                                    ? '1'
+                                    : (orderMap[container.index]?.toString() ??
+                                        ''),
                                 top: -20,
                                 left: container.index == 4 ? 70 : 100,
                               ),
@@ -997,215 +1009,211 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ),
         QuestionModel(
-            question:
-                "Quelles sont les différentes étapes techniques que vont subir les prélèvements ?",
-            image: "",
-            image2: "",
-            title: "",
-            correctIndex: [], // Not used for this one
-            correctIndices: [
-              0,
-              1,
-              2,
-              3,
-              4
-            ], // Order: Déshydratation → Inclusion en paraffine → Coupe → Coloration → Montage
-            correctDialog: Q1CorrectResponse(
-              textResponse:
-                  "Vous avez correctement ordonné les étapes techniques :\n"
-                  "1. Déshydratation\n"
-                  "2. Inclusion en paraffine\n"
-                  "3. Coupe\n"
-                  "4. Coloration\n"
-                  "5. Montage",
-            ),
-            wrongDialog: Q1WorngResponse(
-              textResponse: "1. Déshydratation\n"
-                  "2. Inclusion en paraffine\n"
-                  "3. Coupe\n"
-                  "4. Coloration\n"
-                  "5. Montage",
-            ),
-            widget: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 700,
-                    width: screenWidth - 50,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned.fill(
-                          child: Image.asset("assets/images/landref.png"),
-                        ),
-
-                        Positioned(
-                          right: screenWidth * 0.05,
-                          bottom: 0,
-                          child: Image.asset(
-                            "assets/images/doc2.png",
-                            height: screenHeight > 820
-                                ? screenHeight * 0.35
-                                : screenHeight * 0.25,
-                          ),
-                        ),
-
-                        /// Déshydratation (index = 0)
-                        Positioned(
-                          right: screenWidth * 0.3,
-                          top: screenHeight > 820
-                              ? screenHeight * 0.15
-                              : screenHeight * 0.22,
-                          child: Obx(() {
-                            final questionIndex =
-                                controller.currentQuestionIndex.value;
-                            final selected =
-                                controller.selectedAnswers[questionIndex];
-                            final isSelected = selected.contains(0);
-                            final stepNumber = isSelected
-                                ? (selected.indexOf(0) + 1).toString()
-                                : "";
-                            return CustomSimpleButton(
-                              onPressed: () => controller.selectAnswer(
-                                  questionIndex, 0,
-                                  isMultiple: true),
-                              title: "Déshydratation",
-                              number: stepNumber,
-                              isSelected: isSelected,
-                              width: screenWidth * 0.18,
-                              heigh: screenHeight * 0.08,
-                            );
-                          }),
-                        ),
-
-                        /// Inclusion en paraffine (index = 1)
-                        Positioned(
-                          left: screenWidth > 1900
-                              ? screenWidth * 0.26
-                              : screenWidth * 0.20,
-                          top: screenHeight > 820
-                              ? screenHeight * 0.20
-                              : screenHeight * 0.26,
-                          child: Obx(() {
-                            final questionIndex =
-                                controller.currentQuestionIndex.value;
-                            final selected =
-                                controller.selectedAnswers[questionIndex];
-                            final isSelected = selected.contains(1);
-                            final stepNumber = isSelected
-                                ? (selected.indexOf(1) + 1).toString()
-                                : "";
-                            return CustomSimpleButton(
-                              onPressed: () => controller.selectAnswer(
-                                  questionIndex, 1,
-                                  isMultiple: true),
-                              title: "Inclusion en paraffine",
-                              number: stepNumber,
-                              isSelected: isSelected,
-                              width: screenWidth > 1900
-                                  ? screenWidth * 0.16
-                                  : (screenWidth * 0.15) + 70,
-                              heigh: screenHeight * 0.06,
-                            );
-                          }),
-                        ),
-
-                        /// Coupe (index = 2)
-                        Positioned(
-                          left: screenWidth > 1900
-                              ? screenWidth * 0.15
-                              : screenWidth * 0.09,
-                          top: screenHeight > 820
-                              ? screenHeight * 0.22
-                              : screenHeight * 0.30,
-                          child: Obx(() {
-                            final questionIndex =
-                                controller.currentQuestionIndex.value;
-                            final selected =
-                                controller.selectedAnswers[questionIndex];
-                            final isSelected = selected.contains(2);
-                            final stepNumber = isSelected
-                                ? (selected.indexOf(2) + 1).toString()
-                                : "";
-                            return CustomSimpleButton(
-                              onPressed: () => controller.selectAnswer(
-                                  questionIndex, 2,
-                                  isMultiple: true),
-                              title: "Coupe",
-                              number: stepNumber,
-                              isSelected: isSelected,
-                              width: screenWidth * 0.1,
-                              heigh: screenHeight * 0.07,
-                            );
-                          }),
-                        ),
-
-                        /// Coloration (index = 3)
-                        Positioned(
-                          right: screenWidth > 1900
-                              ? screenWidth * 0.12
-                              : screenWidth * 0.10,
-                          top: screenHeight > 820
-                              ? screenHeight * 0.24
-                              : screenHeight * 0.3,
-                          child: Obx(() {
-                            final questionIndex =
-                                controller.currentQuestionIndex.value;
-                            final selected =
-                                controller.selectedAnswers[questionIndex];
-                            final isSelected = selected.contains(3);
-                            final stepNumber = isSelected
-                                ? (selected.indexOf(3) + 1).toString()
-                                : "";
-                            return CustomSimpleButton(
-                              onPressed: () => controller.selectAnswer(
-                                  questionIndex, 3,
-                                  isMultiple: true),
-                              title: "Coloration",
-                              number: stepNumber,
-                              isSelected: isSelected,
-                              width: screenWidth * 0.13,
-                              heigh: screenHeight * 0.08,
-                            );
-                          }),
-                        ),
-
-                        /// Montage (index = 4)
-                        Positioned(
-                          right: screenWidth * 0.50,
-                          top: screenHeight > 820
-                              ? screenHeight * 0.11
-                              : screenHeight * 0.18,
-                          child: Obx(() {
-                            final questionIndex =
-                                controller.currentQuestionIndex.value;
-                            final selected =
-                                controller.selectedAnswers[questionIndex];
-                            final isSelected = selected.contains(4);
-                            final stepNumber = isSelected
-                                ? (selected.indexOf(4) + 1).toString()
-                                : "";
-                            return CustomSimpleButton(
-                              onPressed: () => controller.selectAnswer(
-                                  questionIndex, 4,
-                                  isMultiple: true),
-                              title: "Montage",
-                              number: stepNumber,
-                              isSelected: isSelected,
-                              width: screenWidth * 0.11,
-                              heigh: screenHeight * 0.08,
-                            );
-                          }),
-                        ),
-                      ],
+          question: "",
+          image: "",
+          image2: "",
+          title: "",
+          correctIndex: [], // Not used for this one
+          correctIndices: [
+            0,
+            1,
+            2,
+            3,
+            4
+          ], // Order: Déshydratation → Inclusion en paraffine → Coupe → Coloration → Montage
+          correctDialog: Q1CorrectResponse(
+            textResponse:
+                "Vous avez correctement ordonné les étapes techniques :\n"
+                "1. Déshydratation\n"
+                "2. Inclusion en paraffine\n"
+                "3. Coupe\n"
+                "4. Coloration\n"
+                "5. Montage",
+          ),
+          wrongDialog: Q1WorngResponse(
+            textResponse: "1. Déshydratation\n"
+                "2. Inclusion en paraffine\n"
+                "3. Coupe\n"
+                "4. Coloration\n"
+                "5. Montage",
+          ),
+          widget: SizedBox(
+            height: 550,
+            width: screenWidth - 80,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned.fill(
+                  top: 20,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 0),
+                    child: Image.asset(
+                      "assets/images/landref.png",
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ],
-              ),
-            )),
+                ),
+
+                Positioned(
+                  right: screenWidth * 0.05,
+                  bottom: 0,
+                  child: Image.asset(
+                    "assets/images/doc2.png",
+                    height: screenHeight > 820
+                        ? screenHeight * 0.35
+                        : screenHeight * 0.50,
+                  ),
+                ),
+
+                /// Déshydratation (index = 0)
+                Positioned(
+                  right: screenWidth * 0.3,
+                  top: screenHeight > 820
+                      ? screenHeight * 0.1
+                      : screenHeight * 0.2,
+                  child: Obx(() {
+                    final questionIndex = controller.currentQuestionIndex.value;
+                    final selected = controller.selectedAnswers[questionIndex];
+                    final isSelected = selected.contains(0);
+                    final stepNumber =
+                        isSelected ? (selected.indexOf(0) + 1).toString() : "";
+                    return CustomSimpleButton(
+                      onPressed: () => controller.selectAnswer(questionIndex, 0,
+                          isMultiple: true),
+                      title: "Déshydratation",
+                      number: stepNumber,
+                      isSelected: isSelected,
+                      width: screenWidth * 0.18,
+                      heigh: screenHeight * 0.08,
+                    );
+                  }),
+                ),
+
+                /// Inclusion en paraffine (index = 1)
+                Positioned(
+                  left: screenWidth > 1900
+                      ? screenWidth * 0.26
+                      : screenWidth * 0.18,
+                  top: screenHeight > 820
+                      ? screenHeight * 0.1
+                      : screenHeight * 0.2,
+                  child: Obx(() {
+                    final questionIndex = controller.currentQuestionIndex.value;
+                    final selected = controller.selectedAnswers[questionIndex];
+                    final isSelected = selected.contains(1);
+                    final stepNumber =
+                        isSelected ? (selected.indexOf(1) + 1).toString() : "";
+                    return CustomSimpleButton(
+                      onPressed: () => controller.selectAnswer(questionIndex, 1,
+                          isMultiple: true),
+                      title: "Inclusion en paraffine",
+                      number: stepNumber,
+                      isSelected: isSelected,
+                      width: screenWidth > 1900
+                          ? screenWidth * 0.16
+                          : (screenWidth * 0.15) + 70,
+                      heigh: screenHeight * 0.06,
+                    );
+                  }),
+                ),
+
+                /// Coupe (index = 2)
+                Positioned(
+                  left: screenWidth > 1900
+                      ? screenWidth * 0.10
+                      : screenWidth * 0.08,
+                  top: screenHeight > 820
+                      ? screenHeight * 0.15
+                      : screenHeight * 0.2,
+                  child: Obx(() {
+                    final questionIndex = controller.currentQuestionIndex.value;
+                    final selected = controller.selectedAnswers[questionIndex];
+                    final isSelected = selected.contains(2);
+                    final stepNumber =
+                        isSelected ? (selected.indexOf(2) + 1).toString() : "";
+                    return CustomSimpleButton(
+                      onPressed: () => controller.selectAnswer(questionIndex, 2,
+                          isMultiple: true),
+                      title: "Coupe",
+                      number: stepNumber,
+                      isSelected: isSelected,
+                      width: screenWidth * 0.1,
+                      heigh: screenHeight * 0.07,
+                    );
+                  }),
+                ),
+
+                /// Montage (index = 4)
+                Positioned(
+                  right: screenWidth * 0.5,
+                  top: screenHeight > 820
+                      ? screenHeight * 0.02
+                      : screenHeight * 0.1,
+                  child: Obx(() {
+                    final questionIndex = controller.currentQuestionIndex.value;
+                    final selected = controller.selectedAnswers[questionIndex];
+                    final isSelected = selected.contains(4);
+                    final stepNumber =
+                        isSelected ? (selected.indexOf(4) + 1).toString() : "";
+                    return CustomSimpleButton(
+                      onPressed: () => controller.selectAnswer(questionIndex, 4,
+                          isMultiple: true),
+                      title: "Montage",
+                      number: stepNumber,
+                      isSelected: isSelected,
+                      width: screenWidth * 0.11,
+                      heigh: screenHeight * 0.08,
+                    );
+                  }),
+                ),
+
+                /// Coloration (index = 3)
+                Positioned(
+                  right: screenWidth > 1900
+                      ? screenWidth * 0.12
+                      : screenWidth * 0.04,
+                  top: screenHeight > 820
+                      ? screenHeight * 0.15
+                      : screenHeight * 0.23,
+                  child: Obx(() {
+                    final questionIndex = controller.currentQuestionIndex.value;
+                    final selected = controller.selectedAnswers[questionIndex];
+                    final isSelected = selected.contains(3);
+                    final stepNumber =
+                        isSelected ? (selected.indexOf(3) + 1).toString() : "";
+                    return CustomSimpleButton(
+                      onPressed: () => controller.selectAnswer(questionIndex, 3,
+                          isMultiple: true),
+                      title: "Coloration",
+                      number: stepNumber,
+                      isSelected: isSelected,
+                      width: screenWidth * 0.13,
+                      heigh: screenHeight * 0.08,
+                    );
+                  }),
+                ),
+                Positioned(
+                  top: screenHeight > 820 ? -80 : -80,
+                  left: 150,
+                  child: SizedBox(
+                    width: screenWidth > 1900
+                        ? screenWidth * 0.7
+                        : screenWidth * 0.7,
+                    child: Text(
+                      "Quelles sont les différentes étapes techniques que vont subir les prélèvements ?",
+                      style: TextStyles.textStyle2.copyWith(
+                        color: AppColors.darkBlue,
+                        fontWeight: FontWeight.w500,
+                        fontSize: screenWidth > 1900 ? 42 : 28,
+                      ),
+                      softWrap: true,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
         QuestionModel(
           question: "",
           image: "",
@@ -1980,29 +1988,6 @@ class _WelcomePageState extends State<WelcomePage> {
                                                 ],
                                               )
                                             : null,
-                                textWidht: controller
-                                                .currentQuestionIndex.value ==
-                                            4 ||
-                                        controller.currentQuestionIndex.value ==
-                                            8 ||
-                                        controller.currentQuestionIndex.value ==
-                                            9 ||
-                                        controller.currentQuestionIndex.value ==
-                                            11 ||
-                                        controller.currentQuestionIndex.value ==
-                                            11
-                                    ? 1500
-                                    : null,
-                                imageSize:
-                                    (controller.currentQuestionIndex.value ==
-                                                3) ||
-                                            (controller.currentQuestionIndex
-                                                    .value ==
-                                                5)
-                                        ? 500
-                                        : screenWidth > 1900
-                                            ? null
-                                            : 500,
                                 isHasResizeImlage:
                                     currentQuestion.image2 != "" ? true : false,
                                 title: currentQuestion.title ?? "",
@@ -2018,70 +2003,11 @@ class _WelcomePageState extends State<WelcomePage> {
                 ],
               ),
             ),
-            controller.currentPage.value == 0
-                ? SizedBox.shrink()
-                : Positioned(
-                    top: 180,
-                    left: 80,
-                    child: Container(
-                      height: 110,
-                      width: (controller.currentQuestionIndex.value + 1 == 5) ||
-                              (controller.currentQuestionIndex.value + 1 ==
-                                  10) ||
-                              (controller.currentQuestionIndex.value == 11)
-                          ? 410
-                          : 110,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left:
-                              BorderSide(color: AppColors.darkBlue, width: 0.7),
-                          right:
-                              BorderSide(color: AppColors.darkBlue, width: 0.7),
-                          top:
-                              BorderSide(color: AppColors.darkBlue, width: 0.7),
-                          bottom:
-                              BorderSide(color: AppColors.darkBlue, width: 8),
-                        ),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(42),
-                          topRight: Radius.circular(42),
-                          bottomLeft: Radius.circular(40),
-                          bottomRight: Radius.circular(40),
-                        ),
-                        color: AppColors.brandBlue,
-                      ),
-                      child: Center(
-                          child: Obx(
-                        () => Text(
-                          (controller.currentQuestionIndex.value + 1 == 5 ||
-                                  controller.currentQuestionIndex.value + 1 ==
-                                      10)
-                              ? "Etape suivante ?"
-                              : controller.currentQuestionIndex.value == 11
-                                  ? "Etape suivante"
-                                  : "Q${controller.currentQuestionIndex.value == 12 ? controller.currentQuestionIndex.value : controller.currentQuestionIndex.value + 1}",
-                          style: TextStyles.textStyle1.copyWith(
-                            fontSize: 40,
-                            color: AppColors.darkBlue,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      )),
-                    ),
-                  ),
             Positioned(
               top: 60,
               child: Container(
                 height: 120,
                 width: screenWidth,
-                // decoration: BoxDecoration(
-                //   // ignore: deprecated_member_use
-                //   color: AppColors.backgroundColorLight.withOpacity(0.6),
-                //   borderRadius: BorderRadius.only(
-                //     topLeft: Radius.circular(50),
-                //     topRight: Radius.circular(50),
-                //   ),
-                // ),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -2218,14 +2144,13 @@ class _WelcomePageState extends State<WelcomePage> {
 
                         return CustomButton(
                           onPressed: () {
-                            if (shouldDisable) {
-                              // maybe show a toast or do nothing
-                              return;
-                            }
+                            if (shouldDisable) return;
 
-                            // Special case for question 11
-                            if (controller.currentQuestionIndex.value == 11) {
-                              // Skip dialogs and go to next page
+                            final qIndex =
+                                controller.currentQuestionIndex.value;
+
+                            // Special case for question 11 — skip check, go next page
+                            if (qIndex == 11) {
                               nextPage();
                               return;
                             }
@@ -2233,48 +2158,115 @@ class _WelcomePageState extends State<WelcomePage> {
                             bool isCorrect = false;
                             final listEquality = const ListEquality<int>();
 
-                            if (currentQuestion.correctIndices != null) {
-                              // Ordered multi-answer
-                              isCorrect = listEquality.equals(selectedList,
-                                  currentQuestion.correctIndices!);
+                            if (qIndex == 8) {
+                              // ✅ Special case: question 8 – partial scoring and dialog
+                              final correctAnswers =
+                                  currentQuestion.correctIndex.toSet();
+                              final selectedAnswers = (selectedList).toSet();
+
+                              final correctSelections =
+                                  selectedAnswers.intersection(correctAnswers);
+                              final numCorrect = correctSelections.length;
+
+                              final showCorrectDialog = numCorrect > 0;
+                              final double questionScore =
+                                  (numCorrect * 0.5).clamp(0.0, 2.0);
+
+                              if (showCorrectDialog) {
+                                showWrongAnswerDialog(
+                                  context,
+                                  currentQuestion.correctDialog,
+                                  numCorrect == 4
+                                      ? "Bonne réponse complète !"
+                                      : "Bonne réponse partielle !",
+                                  true,
+                                  700,
+                                  1150,
+                                  false,
+                                );
+                              } else {
+                                showWrongAnswerDialog(
+                                  context,
+                                  currentQuestion.wrongDialog,
+                                  "Mauvaise réponse",
+                                  false,
+                                  700,
+                                  1150,
+                                  false,
+                                );
+                              }
+
+                              controller.calculateScore(_questionsPerPage);
+                              isCorrect = numCorrect ==
+                                  correctAnswers.length; // Full correct
                             } else {
-                              // Unordered
-                              isCorrect = listEquality.equals(
-                                selectedList.toSet().toList()..sort(),
-                                currentQuestion.correctIndex.toSet().toList()
-                                  ..sort(),
-                              );
+                              // ✅ Normal logic for other questions
+                              if (currentQuestion.correctIndices != null) {
+                                isCorrect = listEquality.equals(
+                                  selectedList,
+                                  currentQuestion.correctIndices!,
+                                );
+                              } else {
+                                final selectedSorted =
+                                    (selectedList).toSet().toList()..sort();
+                                final correctSorted = currentQuestion
+                                    .correctIndex
+                                    .toSet()
+                                    .toList()
+                                  ..sort();
+                                isCorrect = listEquality.equals(
+                                    selectedSorted, correctSorted);
+                              }
+
+                              if (isCorrect) {
+                                showWrongAnswerDialog(
+                                  context,
+                                  currentQuestion.correctDialog,
+                                  "Bonne réponse !",
+                                  true,
+                                  500,
+                                  1150,
+                                  false,
+                                );
+                              } else {
+                                showWrongAnswerDialog(
+                                  context,
+                                  currentQuestion.wrongDialog,
+                                  "Mauvaise réponse",
+                                  false,
+                                  700,
+                                  1150,
+                                  false,
+                                );
+                              }
+
+                              controller.calculateScore(_questionsPerPage);
                             }
 
-                            if (isCorrect) {
-                              showWrongAnswerDialog(
-                                context,
-                                currentQuestion.correctDialog,
-                                "Bonne réponse !",
-                                true,
-                                500,
-                                1150,
-                                false,
-                              );
-                            } else {
-                              showWrongAnswerDialog(
-                                context,
-                                currentQuestion.wrongDialog,
-                                "Mauvaise réponse",
-                                false,
-                                700,
-                                1150,
-                                false,
-                              );
-                            }
-
-                            controller.calculateScore(_questionsPerPage);
-
-                            final isLastQuestionInPage =
-                                controller.currentQuestionIndex.value == 12;
+                            final isLastQuestionInPage = qIndex == 12;
 
                             if (isLastQuestionInPage) {
-                              if (isCorrect) {
+                              final bool lastIsCorrect = qIndex == 8
+                                  ? (selectedList)
+                                      .toSet()
+                                      .intersection(
+                                          currentQuestion.correctIndex.toSet())
+                                      .isNotEmpty
+                                  : (() {
+                                      final selectedSorted = (selectedList)
+                                          .toSet()
+                                          .toList()
+                                        ..sort();
+                                      final correctSorted = currentQuestion
+                                          .correctIndex
+                                          .toSet()
+                                          .toList()
+                                        ..sort();
+                                      return const ListEquality<int>().equals(
+                                          selectedSorted, correctSorted);
+                                    })();
+
+                              if (lastIsCorrect) {
                                 showWrongAnswerDialog(
                                   context,
                                   currentQuestion.correctDialog,
@@ -2345,50 +2337,6 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ),
       ),
-    )
-
-        //  SingleChildScrollView(
-        //       child: Column(
-        //         children: [
-        //           Align(alignment: Alignment.topRight, child: ScoreWidget()),
-        //           SizedBox(height: 20),
-        //           Obx(() {
-        //             final isSmallScreen = screenHeight < 820;
-        //             final isFirstPage = controller.currentPage.value == 0;
-        //             final isQuestion11 =
-        //                 controller.currentQuestionIndex.value == 7;
-        //             final isQuestion8 =
-        //                 controller.currentQuestionIndex.value == 8;
-        //             final isQuestion10 =
-        //                 controller.currentQuestionIndex.value == 10;
-        //             final isQuestion4 =
-        //                 controller.currentQuestionIndex.value == 4;
-
-        //             double calculatedHeight;
-        //             print(controller.currentQuestionIndex.value);
-        //             if (!isSmallScreen) {
-        //               calculatedHeight = screenHeight - 140;
-        //             } else if (isFirstPage && isSmallScreen) {
-        //               calculatedHeight = screenHeight + 60;
-        //             } else if ((isQuestion11 || isQuestion8) && isSmallScreen) {
-        //               calculatedHeight = screenHeight + 290;
-        //             } else if (isQuestion4 && isSmallScreen) {
-        //               calculatedHeight = screenHeight + 180;
-        //             } else if (isQuestion10 && !isSmallScreen) {
-        //               calculatedHeight = screenHeight + 200;
-        //             } else {
-        //               calculatedHeight = screenHeight + 70;
-        //             }
-
-        //             return SizedBox(
-
-        //               child:
-        //             );
-        //           }),
-        //           SizedBox(height: 50),
-        //         ],
-        //       ),
-        //     ),
-        );
+    ));
   }
 }

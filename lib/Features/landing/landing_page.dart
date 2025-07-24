@@ -338,7 +338,7 @@ class _LandingPageState extends State<LandingPage> {
                     1400,
                     "assets/images/Salle4.png",
                     "Bureau médical Analyse au microscope",
-                    "Vous êtes amener à examiner la lame au microscope.",
+                    "Vous êtes amené à examiner la lame au microscope.",
                     "assets/images/number4.png",
                   );
                 },

@@ -54,17 +54,42 @@ class QuestionaireController extends GetxController {
       for (int questionIndex = 0;
           questionIndex < questionsPerPage[pageIndex].length;
           questionIndex++) {
-        if (questionCount == 11) {
-          questionCount++;
-          continue; // skip question 12
-        }
-
         final question = questionsPerPage[pageIndex][questionIndex];
-        final userAnswers = selectedAnswers[questionIndex];
+        final userAnswers = selectedAnswers[questionCount];
 
         final listEquality = const ListEquality<int>();
         bool isCorrect = false;
 
+        if (questionCount == 8) {
+          final correctIndices = question.correctIndex;
+
+          final correctSelected = userAnswers
+              .where((index) => correctIndices.contains(index))
+              .toList();
+          final wrongSelected = userAnswers
+              .where((index) => !correctIndices.contains(index))
+              .toList();
+
+          if (wrongSelected.length == 3) {
+            // Wrong dialog (handle as needed)
+            isCorrect = false;
+          } else if (correctSelected.isNotEmpty) {
+            // Correct dialog (handle as needed)
+
+            if (const ListEquality<int>().equals(
+                userAnswers.toSet().toList()..sort(),
+                correctIndices.toSet().toList()..sort())) {
+              points += 2; // full correct
+            } else {
+              points += 0.5 * correctSelected.length; // partial
+            }
+          }
+
+          questionCount++;
+          continue;
+        }
+
+        // Normal scoring
         if (question.correctIndices != null) {
           isCorrect =
               listEquality.equals(userAnswers, question.correctIndices!);
@@ -82,7 +107,8 @@ class QuestionaireController extends GetxController {
         questionCount++;
       }
     }
-    score.value = ((points / 11.0) * 20).round();
+
+    score.value = ((points / 11.0) * 20).round(); // still dividing by 11
   }
 
   final _storage = GetStorage();
